@@ -8,20 +8,19 @@ from processors.llama_processor import LlamaProcessor
 
 def format_sources(sources):
     """Format source documents for display."""
-    print("\nSources:")
     for source in sources:
-        metadata = source.get('metadata', {})
-        score = source.get('score', 0)
-        text = source.get('text', '')[:200]
+        text = source["text"]
+        metadata = source["metadata"]
+        score = source["score"]
         
-        # Handle different metadata formats
-        if 'header' in metadata:
-            title = metadata['header']
-        else:
-            title = metadata.get('title', 'Unknown')
-            
-        print(f"\n- From {title} (score: {score:.2f if score else 'N/A'}):")
-        print(f"  {text}...")
+        # Get title from metadata or use filename
+        title = metadata.get("title", metadata.get("file_name", "Unknown Source"))
+        
+        # Format score
+        score_str = f"{score:.2f}" if score is not None else "N/A"
+        
+        print(f"\n- From {title} (score: {score_str}):")  
+        print(f"  {text}\n")
 
 def main():
     # Parse arguments
