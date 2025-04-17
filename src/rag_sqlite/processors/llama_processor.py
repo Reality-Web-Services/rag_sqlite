@@ -96,10 +96,8 @@ class LlamaProcessor:
             })
             doc.metadata = doc_metadata
         
-        # Process documents into nodes
-        nodes = Settings.node_parser.get_nodes_from_documents(documents)
-        
         # Insert into index
+        nodes = self.index.storage_context.node_parser.get_nodes_from_documents(documents)
         self.index.insert_nodes(nodes)
         
         # Return first document ID as reference
